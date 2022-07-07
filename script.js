@@ -75,3 +75,62 @@ for(let i=0; i< completeUl.children.length; i++ ) {
 }
 
 form.addEventListener('submit', addTask);
+
+//alternative way to do that
+
+//it is done in july 7,2022
+
+const form = document.querySelector('.new-task-container')
+const newTaskInput = document.querySelector('#new-task')
+const incompleteUl = document.querySelector('#items')
+const completedTasks = document.querySelector('.complete-list')
+const completedListUl = completedTasks.lastElementChild
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (newTaskInput.value == '') {
+        alert('new task cannot be empty')
+    } else {
+        const li = document.createElement('li')
+        li.setAttribute('class', 'item')
+        const checks = document.createElement('input')
+        checks.type = "checkbox"
+        const label = document.createElement('label')
+        label.innerText = newTaskInput.value
+        li.append(checks, label)
+        incompleteUl.append(li)
+        newTaskInput.value = ""
+    }
+
+})
+
+
+incompleteUl.addEventListener("click", (e) => {
+    const deletingEl = e.target
+    const element = deletingEl.type
+    if (element == 'checkbox') {
+        const value = deletingEl.nextSibling.innerText
+        const parent = deletingEl.parentNode
+        incompleteUl.removeChild(parent)
+        const completeinsert = completedTasks.lastElementChild
+        const completeLi = document.createElement('li')
+        completeLi.classList.add('item')
+     
+        const completeBtn = document.createElement('button')
+        completeBtn.classList.add('delete')
+        completeBtn.innerText = "Delete"
+     
+        completeLi.append(value, completeBtn)
+        completedListUl.appendChild(completeLi)
+
+    }
+})
+completedTasks.addEventListener('click', (e) => {
+    const fullDlt = e.target
+    if (fullDlt.className == "delete") {
+        const fullDltParent = fullDlt.parentElement
+        completedListUl.removeChild(fullDltParent)
+    }
+})
+
+
